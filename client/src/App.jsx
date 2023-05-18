@@ -10,7 +10,7 @@ const{Header, Footer} = Layout;
 const App = () => {
   return (
     
-    <Layout  className="layout" style = {styles.layout}>
+    <Layout  style = {styles.layout}>
       <Header style = {styles.header}>
         <Image width="45" preview="false" src={Logo} style = {styles.image}/>
         &nbsp;
