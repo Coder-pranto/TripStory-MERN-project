@@ -1,56 +1,32 @@
-import React, { useRef, useState } from 'react';
-import Auth from './components/auth';
- import { auth } from './config/firebase'; 
+import React from 'react'
+import {Layout, Image, Typography} from 'antd';
+import Logo from './images/Logo.png';
+import Home from './components/Home';
+import styles from './styles';
 
-import Cookies from 'universal-cookie';
-import Chat from './components/chat';
-import { signOut } from 'firebase/auth';
- 
-const cookies = new Cookies();
+const {Title} = Typography;
+const{Header, Footer} = Layout;
 
 const App = () => {
-const [isAuth, setIsAuth] = useState(cookies.get("auth-token"));
-const [room, setRoom] = useState(null);
+  return (
+    
+    <Layout  className="layout" style = {styles.layout}>
+      <Header style = {styles.header}>
+        <Image width="45" preview="false" src={Logo} style = {styles.image}/>
+        &nbsp;
+        <Title style = {styles.title}>TripStory</Title>
+      </Header>
+      <Home />
+      <Footer
+        style={styles.footer}
+      >
+        TripStory©2023 Created by Pranto
+      </Footer>
+    </Layout>
 
-const roomInput = useRef(null);
+  )
+}
 
-
-  const logOut = async () => {
-    try {
-      await signOut(auth);
-      cookies.remove("auth-token");
-      setIsAuth(false);
-      setRoom(null);
-    } catch (err) {
-      console.error(err);
-    }
-  };
-
-  if (!isAuth) {
-    return (
-      <div className='container'>
-        <h2 className='text-center'>Chat App</h2>
-        <Auth setIsAuth ={setIsAuth}/>
-      </div>
-    );
-  } else {
-    return <>
-      {room ? (<div> <Chat chatroom={room} /> </div>) : (<div className='container text-center'><div className="form-group w-50 m-auto">
-        <label htmlFor='name' className='h3'>Enter Chatroom Name</label>
-
-        <input type="text"
-          className="form-control " name="name" id="name" ref={roomInput} />
-        <button onClick={() => setRoom(roomInput.current.value)} className="form-control my-2 btn btn-sm btn-success">Enter Chat</button>
-      </div></div>)}
-
-      <div className='text-center'>
-        <button onClick={logOut} className='btn btn-sm btn-danger'>Sign Out</button>
-      </div>
-    </>
-  }
+export default App
 
 
-
-};
-
-export default App;
