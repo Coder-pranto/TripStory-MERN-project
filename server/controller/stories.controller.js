@@ -1,7 +1,5 @@
 const Story = require("../model/storyContent.schema");
 
-
-
 const getStories = async(req, res) => {
     try {
         const stories = await Story.find();
