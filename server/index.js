@@ -6,7 +6,7 @@ const colors = require('colors')
 const connectDB = require('./databaseConfig')
 const port =  5000;
 
-const storyRoute = require("./routes/story.route");
+const storyRoutes = require("./routes/story.route");
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
@@ -14,7 +14,7 @@ require('dotenv').config()
 app.use(morgan("tiny"));
 app.use(cors());
 
-app.use("/stories",storyRoute);
+app.use("/stories",storyRoutes);
 
 app.get('/' , (req , res)=>{
 

@@ -1,4 +1,4 @@
-import * as api from "../API";
+import * as api from "../api";
 
 export const getStories = () => async (dispatch) => {
     try {
@@ -9,9 +9,9 @@ export const getStories = () => async (dispatch) => {
     }
 }
 
-export const createStory = () => async (dispatch) => {
+export const createStory = (story) => async (dispatch) => {
     try {
-        const { data } = await api.createStories();
+        const { data } = await api.createStories(story);
         dispatch({ type: "CREATE_STORY", payload: data })
     } catch (error) {
         console.log(error.message);

@@ -1,5 +1,5 @@
 const express = require('express');
-const { getStories ,createStory} = require('../controller/stories.controller');
+const { getStories ,createStory} = require('../controller/stories.controller.js');
 const router = express.Router();
 
 router.get('/', getStories);
