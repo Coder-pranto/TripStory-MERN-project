@@ -6,6 +6,7 @@ import {useDispatch} from "react-redux";
 import { createStory } from '../../actions/stories';
 
 const {Title} = Typography;
+
 const StoryForm = () => {
   const [form] = Form.useForm();
   const dispatch = useDispatch();
