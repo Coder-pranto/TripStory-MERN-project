@@ -1,13 +1,19 @@
 import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import styles from './styles';
 import { Card, Tooltip, Typography, Image } from 'antd';
 import { EditOutlined, DeleteTwoTone, HeartTwoTone } from '@ant-design/icons';
 import moment from 'moment';
+import { deleteStory,likeStory } from '../../actions/stories';
+
 const { Meta } = Card;
 const { Text, Link, Paragraph } = Typography;
 
-const Story = ({ story }) => {
+
+const Story = ({ story, setSelectedId }) => {
   const [expand, setExpand] = useState(true);
+
+  const dispatch= useDispatch();
   return (
     <Card
       style={styles.card}
@@ -18,17 +24,17 @@ const Story = ({ story }) => {
             placement='top'
             title='Like'
             color='magenta'
-            onClick={() => {}}
+            onClick={() => {dispatch(likeStory(story._id))}}
           >
             <HeartTwoTone twoToneColor='magenta' />
             &nbsp; {story.likes} &nbsp;
           </Tooltip>
         </div>,
         <Tooltip placement='top' title='Edit' color='skyblue'>
-          <EditOutlined onClick={() => {}} />
+          <EditOutlined onClick={() => {setSelectedId(story._id)}} />
         </Tooltip>,
         <Tooltip placement='top' title='Delete' color='red'>
-          <DeleteTwoTone twoToneColor='red' onClick={() => {}} />
+          <DeleteTwoTone twoToneColor='red' onClick={() => dispatch(deleteStory(story._id))} />
         </Tooltip>,
       ]}
     >

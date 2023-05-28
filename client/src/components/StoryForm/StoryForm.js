@@ -1,24 +1,42 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import styles from './styles';
 import {Card, Form, Input, Typography, Button} from "antd";
 import FileBase64 from "react-file-base64";
 import {useDispatch} from "react-redux";
-import { createStory } from '../../actions/stories';
-
+import { createStory, updateStory } from '../../actions/stories';
+import { useSelector } from 'react-redux';
 const {Title} = Typography;
 
-const StoryForm = () => {
+const StoryForm = ({selectedId, setSelectedId}) => {
+  const story = useSelector((state) => selectedId ? state.stories.find(story => story._id === selectedId): null);
+
   const [form] = Form.useForm();
   const dispatch = useDispatch();
 
   const onSubmit = (formValues) => {
-    dispatch(createStory(formValues));
+    selectedId?
+    dispatch(updateStory(selectedId, formValues))
+    :
+    dispatch(createStory(formValues))
+    reset();
     console.log(formValues);
   }
+
+  useEffect(() => {
+    if(story){
+      form.setFieldsValue(story);
+    }
+  }, [story,form])
+
+  const reset =()=>{
+    form.resetFields();
+    setSelectedId(null);
+  }
+  
   return (
     <Card
     style={styles.formCard}
-    title={<Title level ={4} style={styles.formTitle}>Story Form</Title>}
+    title={<Title level ={4} style={styles.formTitle}>{selectedId? "Editing" : "Share"} a story</Title>}
     >
       <Form form ={form} labelCol={{span: 6}} wrapperCol={{span:16}} 
       layout='horizontal'
@@ -43,10 +61,16 @@ const StoryForm = () => {
           }}
           />
         </Form.Item>
+
         <Form.Item wrapperCol={{span:16, offset: 6}}>
           <Button type='primary' block htmlType='submit'>Share</Button>
         </Form.Item>
-
+       {!selectedId? null :
+        <Form.Item wrapperCol={{span:16, offset: 6}}>
+        <Button type='primary' block htmlType='button' danger onClick={reset}>Discard</Button>
+      </Form.Item>
+ 
+       }
 
       </Form>
     </Card>
